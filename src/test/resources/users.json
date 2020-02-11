@@ -1,0 +1,33 @@
+[ {
+  "firstName" : "FirstUserFN",
+  "lastName" : "FirstUserLN",
+  "email" : "FUemail@gmail.com",
+  "birthday" : "2020-01-22 10:00:00",
+  "password" : "$2a$10$U7XpuIwdvgFlrhpdX9e.UutvcF6rdb6mOTWGkS2UozjQ2wVw1Xewe",
+  "roles" : [ {
+    "name" : "RESGISTERED_USER"
+  } ],
+  "tickets" : null
+}, {
+  "firstName" : "SecondUserFN",
+  "lastName" : "SecondUserLN",
+  "email" : "SUemail@gmail.com",
+  "birthday" : "2020-01-12 10:00:00",
+  "password" : "$2a$10$PyLHZfLpM8demIZqcZCVpegJa9HaPO2k0ygL38KuV3w/VJTpc6UpK",
+  "roles" : [ {
+    "name" : "ADMIN"
+  } ],
+  "tickets" : null
+}, {
+  "firstName" : "ThirdUserFN",
+  "lastName" : "SecondUserLN",
+  "email" : "TUemail@gmail.com",
+  "birthday" : "2020-02-01 10:00:00",
+  "password" : "$2a$10$3A1r/hthEjHYLwiV8n1wjeQMGF.2saBrx4bxeBAkS0WUD9V1p5/1C",
+  "roles" : [ {
+    "name" : "ADMIN"
+  }, {
+    "name" : "BOOKING_MANAGER"
+  } ],
+  "tickets" : null
+} ]

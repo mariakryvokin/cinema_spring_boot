@@ -1,0 +1,9 @@
+[ {
+  "name" : "FirstEvent",
+  "basePrice" : 100.0,
+  "rating" : "LOW"
+}, {
+  "name" : "SecondEvent",
+  "basePrice" : 200.0,
+  "rating" : "HIGH"
+} ]

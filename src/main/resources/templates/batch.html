@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+</head>
+<body>
+<form method="POST" action="/admin/upload" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>Select a file with users to upload</td>
+            <td><input type="file" name="files" /></td>
+        </tr>
+        <tr>
+            <td>Select a file with events to upload</td>
+            <td><input type="file" name="files" /></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

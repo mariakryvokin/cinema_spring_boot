@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+</head>
+<body>
+<form action="/user/save" method="post" th:object="${user}">
+    First name:<br>
+    <input type="text" th:field="*{firstName}" />
+    <br><br>
+    Last name:<br>
+    <input type="text" th:field="*{lastName}" />
+    <br><br>
+    Email:<br>
+    <input type="text" th:field="*{email}" />
+    <br><br>
+    Birthday:<br>
+    <input type="text" th:field="*{birthday}" />
+    <br><br>
+    Password:<br>
+    <input type="text" th:field="*{password}" />
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
