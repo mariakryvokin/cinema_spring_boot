@@ -44,8 +44,8 @@ public class TicketService {
         return ticketRepository.countBookedTicketByUserId(userId);
     }
 
-    public List<Integer> getAllByAuditoriumNameAndAirDateTime(String auditoriumName, Timestamp airDateTime){
-        return ticketRepository.getAllByAuditoriumNameAndAirDateTime(auditoriumName, airDateTime);
+    public List<Ticket> getAllByAuditoriumNameAndAirDateTime(String auditoriumName, Timestamp airDateTime){
+        return ticketRepository.getAllByEventHasAuditorium_Auditorium_NameAndEventHasAuditorium_AirDate(auditoriumName, airDateTime);
     }
 
     public List<Ticket> getAll(){

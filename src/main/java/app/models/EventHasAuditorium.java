@@ -2,6 +2,8 @@ package app.models;
 
 import app.models.compositePK.EventHasAuditoriumPK;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -13,7 +15,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "event_has_auditoriums")
 @IdClass(EventHasAuditoriumPK.class)
+@Builder
+@AllArgsConstructor
 public class EventHasAuditorium {
+
+    public EventHasAuditorium() {
+    }
 
     @Id
     @Column(name = "air_date")

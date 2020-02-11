@@ -2,6 +2,8 @@ package app.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,17 +12,11 @@ import java.util.List;
 
 @Entity(name = "users")
 @Table(name = "users")
+@Builder
+@AllArgsConstructor
 public class User {
-    public User() {
-    }
 
-    public User(String firstName, String lastName, String email, Date birthday, String password, List<Role> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.birthday = birthday;
-        this.password = password;
-        this.roles = roles;
+    public User() {
     }
 
     @JsonIgnore

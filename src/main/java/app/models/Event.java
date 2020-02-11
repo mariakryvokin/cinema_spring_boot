@@ -2,12 +2,16 @@ package app.models;
 
 import app.models.enums.Rating;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "events")
+@Builder
+@AllArgsConstructor
 public class Event {
     public Event() {
     }

@@ -1,11 +1,20 @@
 package app.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "orders")
 @Table(name = "orders")
+@Builder
+@AllArgsConstructor
 public class Order {
+
+    public Order() {
+    }
+
     @Id
     private long id;
 

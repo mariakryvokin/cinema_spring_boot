@@ -1,12 +1,20 @@
 package app.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "auditoriums")
+@Builder
+@AllArgsConstructor
 public class Auditorium {
+
+    public Auditorium() {
+    }
 
     @Id
     private String name;

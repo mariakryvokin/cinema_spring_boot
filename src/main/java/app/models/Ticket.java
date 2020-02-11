@@ -1,11 +1,18 @@
 package app.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "tickets")
+@Builder
+@AllArgsConstructor
 public class Ticket {
+    public Ticket() {
+    }
 
     @Id
     private long id;
