@@ -4,6 +4,7 @@ import app.config.viewresolvers.JsonViewResolver;
 import app.config.viewresolvers.PdfViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -38,21 +39,15 @@ public class ViewConfig {
         return new JsonViewResolver();
     }
 
-  /*  public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        Map<String, MediaType> mediaTypeMap = new HashMap<>();
-        mediaTypeMap.put(".pdf", MediaType.APPLICATION_PDF);
-        configurer.mediaTypes(mediaTypeMap);
-    }*/
-
- /*   @Bean
+    @Bean
     public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager) {
         ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+        resolver.setOrder(Ordered.LOWEST_PRECEDENCE);
         resolver.setContentNegotiationManager(manager);
-
         List< ViewResolver > resolvers = new ArrayList< ViewResolver >();
-        resolvers.add(pdfViewResolver());
         resolvers.add(jsonViewResolver());
+        resolvers.add(pdfViewResolver());
         resolver.setViewResolvers(resolvers);
         return resolver;
-    }*/
+    }
 }

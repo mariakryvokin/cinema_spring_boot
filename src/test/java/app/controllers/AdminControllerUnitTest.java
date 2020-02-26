@@ -83,7 +83,7 @@ class AdminControllerUnitTest {
     public void getTicketsForEvent() throws Exception {
         Mockito.when(ticketService.findAllByEventHasAuditorium_Event_Id(ArgumentMatchers.anyLong()))
                 .thenReturn(Arrays.asList(new Ticket()));
-        mockMvc.perform(MockMvcRequestBuilders.post("/admin/tickets/{eventId}",Mockito.anyLong())).andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/tickets/{eventId}",Mockito.anyLong())).andExpect(MockMvcResultMatchers.model().attributeExists("ticketsList"));
         Mockito.verify(ticketService,Mockito.atLeastOnce()).findAllByEventHasAuditorium_Event_Id(Mockito.anyLong());
     }
 

@@ -35,7 +35,8 @@ public class EventHasAuditorium {
     @JoinColumn(name = "events_id")
     private Event event;
 
-    @OneToMany(mappedBy = "eventHasAuditorium")
+    @OneToMany(mappedBy = "eventHasAuditorium", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Ticket> tickets;
 
     public Timestamp getAirDate() {

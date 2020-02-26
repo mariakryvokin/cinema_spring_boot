@@ -1,5 +1,7 @@
 package app.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -26,8 +28,9 @@ public class Ticket {
     @JoinColumn(name = "orders_id")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.EAGER )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
+    @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,6 +38,7 @@ public class Ticket {
             @JoinColumn(name = "event_has_auditoriums_auditoriums_name", referencedColumnName = "auditoriums_name"),
             @JoinColumn(name = "event_has_auditoriums_air_date", referencedColumnName = "air_date")
     })
+    @JsonManagedReference
     private EventHasAuditorium eventHasAuditorium;
 
     public long getId() {

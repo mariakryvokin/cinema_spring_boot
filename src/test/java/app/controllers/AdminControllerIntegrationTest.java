@@ -6,12 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 @SpringBootTest
@@ -23,7 +26,6 @@ class AdminControllerIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
-
 
     @Test
     @WithMockUser(authorities = "ADMIN")
@@ -40,7 +42,7 @@ class AdminControllerIntegrationTest {
 
 
     @Test
-    @WithMockUser(authorities = "ADMIN")
+    @WithMockUser(authorities = "BOOKING_MANAGER")
     public void getTicketsForEvent_303() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/admin/tickets/{eventId}", 1L)).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
     }

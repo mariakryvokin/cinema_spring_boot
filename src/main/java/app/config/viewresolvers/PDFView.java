@@ -27,17 +27,18 @@ public class PDFView extends AbstractPdfView {
 
        List<Ticket> tickets = (List<Ticket>) map.get("ticketsToBeBought");
 
-       tickets.forEach(t->{
-           try {
-               table.addCell(t.getEventHasAuditorium().getEvent().getName());
-               table.addCell(t.getEventHasAuditorium().getAirDate().toString());
-               table.addCell(t.getEventHasAuditorium().getAuditorium().getName());
-               table.addCell(String.valueOf(t.getSeat()));
-           } catch (BadElementException e) {
-               e.printStackTrace();
-           }
-       });
-
+       if(tickets != null){
+           tickets.forEach(t->{
+               try {
+                   table.addCell(t.getEventHasAuditorium().getEvent().getName());
+                   table.addCell(t.getEventHasAuditorium().getAirDate().toString());
+                   table.addCell(t.getEventHasAuditorium().getAuditorium().getName());
+                   table.addCell(String.valueOf(t.getSeat()));
+               } catch (BadElementException e) {
+                   e.printStackTrace();
+               }
+           });
+       }
         document.add(table);
     }
 }

@@ -2,6 +2,7 @@ package app.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import java.util.List;
