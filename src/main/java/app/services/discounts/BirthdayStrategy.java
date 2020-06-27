@@ -18,9 +18,12 @@ public class BirthdayStrategy implements DiscountStrategy {
     public double calculateDiscount(User user, EventHasAuditorium eventHasAuditorium, long amountOfTickets, double totalPrice) {
         if (!userService.exists(user)) {
             return 0;
-        } else if (user.getBirthday().toLocalDate().getDayOfYear() == eventHasAuditorium.getAirDate().toLocalDateTime().getDayOfYear()
-                ||(user.getBirthday().toLocalDate().isBefore(ChronoLocalDate.from(eventHasAuditorium.getAirDate().toLocalDateTime().plusDays(6)))
-                && user.getBirthday().toLocalDate().isAfter(ChronoLocalDate.from(eventHasAuditorium.getAirDate().toLocalDateTime().minusDays(6))))) {
+        } else if (user.getBirthday().toLocalDate().getDayOfYear() == eventHasAuditorium.getAirDate()
+                .toLocalDateTime().getDayOfYear()
+                ||(user.getBirthday().toLocalDate()
+                .isBefore(ChronoLocalDate.from(eventHasAuditorium.getAirDate().toLocalDateTime().plusDays(6)))
+                && user.getBirthday().toLocalDate()
+                .isAfter(ChronoLocalDate.from(eventHasAuditorium.getAirDate().toLocalDateTime().minusDays(6))))) {
             return totalPrice * 0.05;
         }
         return 0;

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 public class TenthTicketStrategy implements DiscountStrategy {
 
     @Override
-    public double calculateDiscount(User user, EventHasAuditorium eventHasAuditorium, long amountOfTickets, double totalPrice) {
+    public double calculateDiscount(User user, EventHasAuditorium eventHasAuditorium,
+                                    long amountOfTickets, double totalPrice) {
         double tenth = amountOfTickets/10 * (totalPrice / amountOfTickets);
         return tenth * 0.5;
     }

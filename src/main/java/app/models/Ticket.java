@@ -1,7 +1,9 @@
 package app.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -12,6 +14,9 @@ import java.sql.Timestamp;
 @Table(name = "tickets")
 @Builder
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.IntSequenceGenerator.class,
+        property = "id")
 public class Ticket {
     public Ticket() {
     }
@@ -30,7 +35,6 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
-    @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)

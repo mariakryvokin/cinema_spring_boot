@@ -22,17 +22,17 @@ services:
     volumes:
       - C:\\tomcat\mysql:/var/lib/mysql
 
-#  tomcat:
-#    image: tomcat:latest
-#    restart: always
-#    ports:
-#      - 8080:8080
-#      - 8000:8000
-#    volumes:
-#      - C:\\Mariia\laba\target\kryvokin.war:/usr/local/tomcat/webapps/kryvokin.war
-#      - C:\\tomcat\logs:/usr/local/tomcat/logs
-#      - C:\\tomcat\config\server.xml:/usr/local/tomcat/conf/server.xml
-#    environment:
-#      - JPDA_ADDRESS=8000
-#      - JPDA_TRANSPORT=dt_socket
-#    command: "/usr/local/tomcat/bin/catalina.sh jpda run"
+  tomcat:
+    image: tomcat:latest
+    restart: always
+    ports:
+      - 8080:8080
+      - 8000:8000
+    volumes:
+      - C:\\Mariia\D1toD2\Junit_module\task3-4\cinema\target\cinema-1.war:/usr/local/tomcat/webapps/kryvokin.war
+      - C:\\tomcat\logs:/usr/local/tomcat/logs
+      - C:\\tomcat\config\server.xml:/usr/local/tomcat/conf/server.xml
+    environment:
+      - JPDA_ADDRESS=8000
+      - JPDA_TRANSPORT=dt_socket
+    command: "/usr/local/tomcat/bin/catalina.sh jpda run"

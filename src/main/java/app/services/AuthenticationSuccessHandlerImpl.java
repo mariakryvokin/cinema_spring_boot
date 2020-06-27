@@ -17,11 +17,12 @@ import java.util.Collection;
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        Collection<GrantedAuthority> roles = (Collection<GrantedAuthority>) authentication.getAuthorities();
-        if(roles.contains(new SimpleGrantedAuthority(RoleEnum.ADMIN.name()))){
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                                        Authentication authentication) throws IOException {
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+        if (roles.contains(new SimpleGrantedAuthority(RoleEnum.ADMIN.name()))) {
             httpServletResponse.sendRedirect("/admin/main");
-        } else if (roles.contains(new SimpleGrantedAuthority(RoleEnum.RESGISTERED_USER.name()))){
+        } else if (roles.contains(new SimpleGrantedAuthority(RoleEnum.RESGISTERED_USER.name()))) {
             httpServletResponse.sendRedirect("/user/main");
         }
     }

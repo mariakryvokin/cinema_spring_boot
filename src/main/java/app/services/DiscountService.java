@@ -15,14 +15,16 @@ public class DiscountService {
     private List<DiscountStrategy> discountStrategies;
 
     /**
-     *
      * @param user
      * @param eventHasAuditorium
      * @param numberOfTickets
      * @param totalPrice
      * @return amount of money to be discount
      */
-    public Double getDiscount(User user, EventHasAuditorium eventHasAuditorium, int numberOfTickets, double totalPrice ){
-        return discountStrategies.stream().map(d->d.calculateDiscount(user,eventHasAuditorium,numberOfTickets,totalPrice)).max(Double::compareTo).get();
+    public Double getDiscount(User user, EventHasAuditorium eventHasAuditorium, int numberOfTickets, double totalPrice) {
+        return discountStrategies.stream()
+                .map(d -> d.calculateDiscount(user, eventHasAuditorium, numberOfTickets, totalPrice))
+                .max(Double::compareTo)
+                .get();
     }
 }

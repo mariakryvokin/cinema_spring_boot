@@ -7,6 +7,7 @@ import app.services.TicketService;
 import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class UserController {
     public String saveUser(@ModelAttribute("user") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user, Arrays.asList(RoleEnum.RESGISTERED_USER));
-        return "/user/main";
+        return "redirect:main";
     }
 
     @PostMapping(value = "/cart", headers = "accept=application/pdf")
@@ -46,7 +47,8 @@ public class UserController {
         if (user != null && user.getEmail() != null) {
             User registeredUser = userService.getUserByEmail(user.getEmail());
             if (registeredUser != null) {
-                model.addAttribute("ticketsToBeBought", ticketService.getCartTicketsByUserIdAndOrderId(registeredUser.getId(), null));
+                model.addAttribute("ticketsToBeBought",
+                        ticketService.getCartTicketsByUserIdAndOrderId(registeredUser.getId(), null));
             }
         }
         return model;

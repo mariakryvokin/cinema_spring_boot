@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.models.Event;
 import app.models.EventHasAuditorium;
 import app.models.Ticket;
 import app.models.User;
@@ -25,8 +26,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 
-/*@SpringBootTest
-@AutoConfigureMockMvc*/
 @WebMvcTest(AdminController.class)
 class AdminControllerUnitTest {
 
@@ -46,8 +45,6 @@ class AdminControllerUnitTest {
     private EventHasAuditoriumService eventHasAuditoriumService;
     @MockBean
     private AuditoriumService auditoriumService;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
     @MockBean
     private UserService userService;
     @MockBean
@@ -55,27 +52,61 @@ class AdminControllerUnitTest {
 
     @Test
     @WithMockUser(authorities = "ADMIN")
-    public void main() throws Exception {
+    public void mainGetTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/admin/main"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     @WithMockUser(authorities = "ADMIN")
+    public void addEventPostTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/event"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(eventService).save(ArgumentMatchers.any(Event.class));
+    }
+
+    @Test
+    @WithMockUser(authorities = "ADMIN")
+    public void addEventGetTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/event"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("event"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("rating"));
+    }
+
+    @Test
+    @WithMockUser(authorities = "ADMIN")
+    public void scheduleEventTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/schedule/event"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("events"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("auditoriums"))
+                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("notExistingAttribute"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("eventHasAuditorium"))
+                .andExpect(MockMvcResultMatchers.view().name("scheduleEvent"));
+        Mockito.verify(eventService).getAll();
+        Mockito.verify(auditoriumService).getAll();
+    }
+
+    @Test
+    @WithMockUser(authorities = "ADMIN")
     public void doUploadMultipleFiles() throws Exception {
         MockMultipartFile[] multipartFiles = FileUtils.getMultipartFiles();
-        ResponseEntity<String> result = adminController.doUploadMultipleFiles(multipartFiles);
         Mockito.when(userService.saveAll(ArgumentMatchers.anyList())).thenReturn(Arrays.asList(new User()));
-        Mockito.verify(userService, Mockito.times(1)).saveAll(ArgumentMatchers.anyList());
-        Assertions.assertTrue(result.getBody().contains("1 users were added"));
+        Mockito.when(eventService.saveAll(ArgumentMatchers.anyList())).thenReturn(Arrays.asList(new Event()));
+        ResponseEntity<String> result = adminController.doUploadMultipleFiles(multipartFiles);
+        Mockito.verify(eventService).saveAll(ArgumentMatchers.anyList());
+        Assertions.assertTrue(result.getBody().contains("entities were saved"));
     }
 
     @Test
     @WithMockUser(authorities = "ADMIN")
     public void doScheduleEvent() throws Exception {
-        Mockito.when(eventHasAuditoriumService.save(ArgumentMatchers.any(EventHasAuditorium.class))).thenReturn(new EventHasAuditorium());
-        mockMvc.perform(MockMvcRequestBuilders.post("/admin/schedule/event")).andExpect(MockMvcResultMatchers.status().isOk());
-        Mockito.verify(eventHasAuditoriumService, Mockito.times(1)).save(ArgumentMatchers.any(EventHasAuditorium.class));
+        Mockito.when(eventHasAuditoriumService.save(ArgumentMatchers.any(EventHasAuditorium.class)))
+                .thenReturn(new EventHasAuditorium());
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/schedule/event"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(eventHasAuditoriumService, Mockito.times(1))
+                .save(ArgumentMatchers.any(EventHasAuditorium.class));
     }
 
     @Test
@@ -83,14 +114,16 @@ class AdminControllerUnitTest {
     public void getTicketsForEvent() throws Exception {
         Mockito.when(ticketService.findAllByEventHasAuditorium_Event_Id(ArgumentMatchers.anyLong()))
                 .thenReturn(Arrays.asList(new Ticket()));
-        mockMvc.perform(MockMvcRequestBuilders.post("/admin/tickets/{eventId}",Mockito.anyLong())).andExpect(MockMvcResultMatchers.model().attributeExists("ticketsList"));
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/tickets/{eventId}",Mockito.anyLong()))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("ticketsList"));
         Mockito.verify(ticketService,Mockito.atLeastOnce()).findAllByEventHasAuditorium_Event_Id(Mockito.anyLong());
     }
 
     @Test
     @WithMockUser(authorities = "ADMIN")
     public void uploadMultipleFiles() throws Exception {
-        String contentType = mockMvc.perform(MockMvcRequestBuilders.get("/admin/upload")).andReturn().getResponse().getContentType();
+        String contentType = mockMvc.perform(MockMvcRequestBuilders.get("/admin/upload"))
+                .andReturn().getResponse().getContentType();
         Assertions.assertTrue(contentType.contains(MediaType.TEXT_HTML.getSubtype()));
     }
 

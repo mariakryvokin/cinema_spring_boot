@@ -2,12 +2,14 @@ package app.controllers;
 
 import app.models.Event;
 import app.models.EventHasAuditorium;
+import app.models.Ticket;
 import app.models.User;
 import app.models.enums.Rating;
 import app.services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,18 +79,29 @@ public class AdminController {
     @PostMapping("/upload")
     @ResponseBody
     public ResponseEntity<String> doUploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (!(files[0]).isEmpty()) {
-            List<User> users = objectMapper.readValue(files[0].getBytes(), objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
-            userService.saveAll(users);
-            stringBuilder.append(users.size() +" users were added");
+        if (isFilePresent(files, 0)) {
+            saveUsersFromFile(files[0]);
         }
-        if (!(files[1]).isEmpty()) {
-            List<Event> events = objectMapper.readValue(files[1].getBytes(), objectMapper.getTypeFactory().constructCollectionType(List.class, Event.class));
-            eventService.saveAll(events);
-            stringBuilder.append("\n" +" events were added");
+        if (isFilePresent(files, 1)) {
+            saveEventFromFile(files[1]);
         }
-        return ResponseEntity.ok(stringBuilder.toString());
+        return ResponseEntity.ok("entities were saved");
+    }
+
+    private boolean isFilePresent(@RequestParam("files") MultipartFile[] files, int i) {
+        return files != null && !(files[i]).isEmpty();
+    }
+
+    private void saveEventFromFile(MultipartFile file) throws IOException {
+        List<Event> events = objectMapper.readValue(file.getBytes(), objectMapper.getTypeFactory()
+                .constructCollectionType(List.class, Event.class));
+        eventService.saveAll(events);
+    }
+
+    private void saveUsersFromFile(MultipartFile file) throws IOException {
+        List<User> users = objectMapper.readValue(file.getBytes(), objectMapper.getTypeFactory()
+                .constructCollectionType(List.class, User.class));
+        userService.saveAll(users);
     }
 
     @PreAuthorize("hasAuthority('BOOKING_MANAGER')")

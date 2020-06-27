@@ -28,7 +28,7 @@ class UserRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @BeforeEach
-    public void sutUp(){
+    public void setUp(){
         Role role = new Role("TestADMIN");
         testEntityManager.persist(role);
 

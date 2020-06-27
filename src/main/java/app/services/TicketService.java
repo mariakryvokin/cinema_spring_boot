@@ -17,12 +17,16 @@ import java.util.stream.Collectors;
 @Service
 public class TicketService {
 
-    @Autowired
     private TicketRepository ticketRepository;
-    @Autowired
     private VipSeatRepository vipSeatRepository;
-    @Autowired
     private DiscountService discountService;
+
+    public TicketService(TicketRepository ticketRepository, VipSeatRepository vipSeatRepository,
+                         DiscountService discountService) {
+        this.ticketRepository = ticketRepository;
+        this.vipSeatRepository = vipSeatRepository;
+        this.discountService = discountService;
+    }
 
     public Ticket save(Ticket ticket){
         return ticketRepository.save(ticket);
@@ -33,7 +37,8 @@ public class TicketService {
         if (eventHasAuditorium.getEvent().getRating() == Rating.HIGH) {
             resultPrice *= 1.2;
         }
-        List<Long> vipSeats = vipSeatRepository.findAllByAuditorium(eventHasAuditorium.getAuditorium()).stream().map(v -> v.getNumber()).collect(Collectors.toList());
+        List<Long> vipSeats = vipSeatRepository.findAllByAuditorium(eventHasAuditorium.getAuditorium())
+                .stream().map(v -> v.getNumber()).collect(Collectors.toList());
         long orderedVipSeats = seats.stream().filter(s -> vipSeats.contains(s)).count();
         double vipSeatCost = orderedVipSeats * resultPrice;
         resultPrice = vipSeatCost + (seats.size() - orderedVipSeats) * resultPrice;
