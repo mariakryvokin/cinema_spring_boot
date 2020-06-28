@@ -1,8 +1,10 @@
 package app.services;
 
+import app.models.Auditorium;
 import app.models.EventHasAuditorium;
 import app.models.Ticket;
 import app.models.User;
+import app.models.VipSeat;
 import app.models.enums.Rating;
 import app.repositories.TicketRepository;
 import app.repositories.VipSeatRepository;
@@ -37,12 +39,16 @@ public class TicketService {
         if (eventHasAuditorium.getEvent().getRating() == Rating.HIGH) {
             resultPrice *= 1.2;
         }
-        List<Long> vipSeats = vipSeatRepository.findAllByAuditorium(eventHasAuditorium.getAuditorium())
-                .stream().map(v -> v.getNumber()).collect(Collectors.toList());
-        long orderedVipSeats = seats.stream().filter(s -> vipSeats.contains(s)).count();
-        double vipSeatCost = orderedVipSeats * resultPrice;
-        resultPrice = vipSeatCost + (seats.size() - orderedVipSeats) * resultPrice;
+        List<Long> vipSeats = getVipSeatsForAuditorium(eventHasAuditorium.getAuditorium());
+        long orderedVipSeatsAmount = seats.stream().filter(vipSeats::contains).count();
+        double vipSeatCost = orderedVipSeatsAmount * resultPrice;
+        resultPrice = vipSeatCost + (seats.size() - orderedVipSeatsAmount) * resultPrice;
         return resultPrice - discountService.getDiscount(user, eventHasAuditorium, seats.size(), resultPrice);
+    }
+
+    private List<Long> getVipSeatsForAuditorium(Auditorium auditorium) {
+        return vipSeatRepository.findAllByAuditorium(auditorium).stream()
+                .map(VipSeat::getNumber).collect(Collectors.toList());
     }
 
     public long countBookedTicketByUserId(long userId){

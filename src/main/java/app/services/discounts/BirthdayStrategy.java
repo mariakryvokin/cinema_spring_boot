@@ -11,13 +11,16 @@ import java.time.chrono.ChronoLocalDate;
 @Service
 public class BirthdayStrategy implements DiscountStrategy {
 
-    @Autowired
     private UserService userService;
+
+    public BirthdayStrategy(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public double calculateDiscount(User user, EventHasAuditorium eventHasAuditorium, long amountOfTickets,
                                     double totalPrice) {
-        if (!userService.exists(user)) {
+        if (!userService.exists(user) || user.getBirthday() == null) {
             return 0;
         }
         if (user.getBirthday().toLocalDate().getDayOfYear() == eventHasAuditorium.getAirDate()

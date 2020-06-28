@@ -1,10 +1,10 @@
 package app.controllers;
 
-import app.models.Auditorium;
-import app.models.EventHasAuditorium;
 import app.models.Ticket;
 import app.models.User;
-import app.services.*;
+import app.services.BookingService;
+import app.services.TicketService;
+import app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,13 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 @Controller
 public class BookingController {

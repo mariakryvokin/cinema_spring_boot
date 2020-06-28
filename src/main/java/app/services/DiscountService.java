@@ -22,6 +22,7 @@ public class DiscountService {
      * @return amount of money to be discount
      */
     public Double getDiscount(User user, EventHasAuditorium eventHasAuditorium, int numberOfTickets, double totalPrice) {
+
         return discountStrategies.stream()
                 .map(d -> d.calculateDiscount(user, eventHasAuditorium, numberOfTickets, totalPrice))
                 .max(Double::compareTo)

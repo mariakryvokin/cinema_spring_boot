@@ -8,6 +8,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class EventHasAuditorium {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "events_id")
+    @NotNull
     private Event event;
 
     @OneToMany(mappedBy = "eventHasAuditorium", fetch = FetchType.LAZY)
