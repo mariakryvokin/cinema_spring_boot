@@ -2,9 +2,14 @@ package app.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.springframework.data.annotation.CreatedBy;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +26,7 @@ public class Auditorium {
     private String name;
 
     @Column(name = "amount_of_seats")
+    @NotNull
     private long amountOfSeats;
 
     @OneToMany(mappedBy = "auditorium", orphanRemoval = true, cascade = CascadeType.ALL)

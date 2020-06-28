@@ -32,8 +32,8 @@ public class BookingService {
         Map<EventHasAuditorium, List<Long>> occupiedSeats = getOccupiedSeats();
         List<EventHasAuditorium> eventHasAuditoriums = eventHasAuditoriumService.getAll();
         List<String> auditoriumsNames = getAuditoriumsNames(eventHasAuditoriums);
-        List<Auditorium> auditoriums = auditoriumService.getAllByNameIn(auditoriumsNames);
-        Map<Auditorium, List<Long>> allSeatsInAuditorium = getAllSeatsInAuditorium(auditoriums);
+        List<Auditorium> auditoriumsWithEvents = auditoriumService.getAllByNameIn(auditoriumsNames);
+        Map<Auditorium, List<Long>> allSeatsInAuditorium = getAllSeatsInAuditorium(auditoriumsWithEvents);
         return findFreeSeats(occupiedSeats, eventHasAuditoriums, allSeatsInAuditorium);
     }
 
@@ -43,12 +43,10 @@ public class BookingService {
         Map<EventHasAuditorium, List<Long>> freeSeats = new HashMap<>();
         eventHasAuditoriums.stream().forEach(eventHasAuditorium -> {
             List<Long> seats = allSeatsInAuditorium.get(eventHasAuditorium.getAuditorium());
-            if (seats != null) {
-                if (occupiedSeats.get(eventHasAuditorium) != null) {
-                    seats.remove(occupiedSeats.get(eventHasAuditorium));
-                }
-                freeSeats.put(eventHasAuditorium, seats);
+            if (occupiedSeats.get(eventHasAuditorium) != null) {
+                seats.removeAll(occupiedSeats.get(eventHasAuditorium));
             }
+            freeSeats.put(eventHasAuditorium, seats);
         });
         return freeSeats;
     }
